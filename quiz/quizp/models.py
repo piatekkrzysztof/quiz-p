@@ -7,10 +7,10 @@ class Question_category(models.Model):
 class Question(models.Model):
     category = models.ForeignKey(Question_category, on_delete=models.CASCADE)
     contents = models.CharField(max_length=255)
-    ans_A = models.CharField()
-    ans_B = models.CharField()
-    ans_C = models.CharField()
-    ans_D = models.CharField()
+    ans_a = models.CharField()
+    ans_b = models.CharField()
+    ans_c = models.CharField()
+    ans_d = models.CharField()
     correct = models.CharField()
 
 class Result(models.Model):

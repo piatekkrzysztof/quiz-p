@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from quizp.models import *
 
-# Create your views here.
+
+def main(request):
+    return render(request,'main.html')
+
+def show_questions(request):
+    questions = Question.objects.all()
+    return render(request,'allquestions.html', context={'questions':questions})

@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Questions</h2>
+    <ol>
+    {% for q in questions %}
+    <li>{{ q.contents }}</li>
+        <ol type="A">
+            <li>{{ q.ans_a }}</li>
+            <li>{{ q.ans_b }}</li>
+            <li>{{ q.ans_c }}</li>
+            <li>{{ q.ans_d }}</li>
+        </ol>
+    {% endfor %}
+    </ol>
+
+
+{% endblock %}
