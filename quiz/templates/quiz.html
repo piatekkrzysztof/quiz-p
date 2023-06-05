@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Questions</h2>
+    <form method="post">
+    {% csrf_token %}
+    <ol>
+    {% for q in questions %}
+        <li>{{ q.contents }}</li>
+            <input type ="hidden" name = "question_id_{{forloop.counter}}" value="{{ q.id }}">
+            <input type="radio" id="ans_a_{{ forloop.counter }}" name="answer_{{ forloop.counter }}" value="A">
+            <label for="ans_a_{{ forloop.counter }}">{{ q.ans_a }}</label><br>
+            <input type="radio" id="ans_b_{{ forloop.counter }}" name="answer_{{ forloop.counter }}" value="B">
+            <label for="ans_b_{{ forloop.counter }}">{{ q.ans_b }}</label><br>
+            <input type="radio" id="ans_c_{{ forloop.counter }}" name="answer_{{ forloop.counter }}" value="C">
+            <label for="ans_c_{{ forloop.counter }}">{{ q.ans_c }}</label><br>
+            <input type="radio" id="ans_d_{{ forloop.counter }}" name="answer_{{ forloop.counter }}" value="D">
+            <label for="ans_d_{{ forloop.counter }}">{{ q.ans_d }}</label><br>
+
+    {% endfor %}
+    </ol>
+    <button type="submit">Accept</button>
+    </form>
+
+
+{% endblock %}
