@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'quizp',
     'django_matplotlib',
+    'bootstrap5',
 
 ]
 
