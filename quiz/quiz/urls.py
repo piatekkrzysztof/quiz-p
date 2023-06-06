@@ -23,4 +23,8 @@ urlpatterns = [
     path('', views.main),
     path('allquestions/', views.show_questions),
     path('quiz/<int:category_id>', views.QuizView.as_view()),
+    path('login/', views.LoginView.as_view()),
+    path('logout/', views.LogoutView.as_view()),
+    path('register/', views.RegisterUserView.as_view()),
+
 ]

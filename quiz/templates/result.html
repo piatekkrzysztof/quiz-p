@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+{% block content %}
+    <h2>Congratulations! you got {{ score }}/10 points! </h2>
+    <h3>Your other results:</h3>
+    <ol>
+    {% for r in user_results  %}
+        <li>Points :{{ r.amount }}/10</li>
+    {% endfor %}
+    </ol>
+{% endblock %}
