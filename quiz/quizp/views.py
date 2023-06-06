@@ -1,9 +1,14 @@
+import base64
+import io
 import random
 
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
+
+import numpy as np
+import matplotlib.pyplot as plt
 
 from quizp.models import *
 from quizp.forms import *
@@ -74,17 +79,49 @@ class QuizView(View):
             question_id = request.POST.get(f"question_id_{i}")
             answer=request.POST.get(f"answer_{i}")
             question = Question.objects.get(id=question_id)
-
             if question.correct== answer:
                 request.session['score'] += 1
+
 
         if request.user.is_authenticated:
             score = request.session['score']
             Result.objects.create(amount=score, category_id=category_id, user_id=request.user.id)
             user_results=Result.objects.filter(user_id=request.user.id)
-            return render(request,'result.html', context={'score':score, 'user_results':user_results})
+            y_points = []
+            for results in user_results:y_points.append(results.amount)
+            plt.title('Your results on plot')
+            plt.ylabel('Points')
+            plt.xlabel('attempts')
+            plt.plot(y_points,marker='o')
+            plt.ylim(1,11)
+            plt.yticks(range(1,12),[str(i) if i <=10 else '' for i in range(1,12)])
+            plt.xticks(range(len(y_points)), [str(i) for i in range(1, len(y_points)+1)])
+            buffer = io.BytesIO()
+            plt.savefig(buffer,format='png')
+            buffer.seek(0)
+            image_png=buffer.getvalue()
+            buffer.close()
+            graphic=base64.b64encode(image_png)
+            graphic=graphic.decode('utf-8')
+
+            users_results=Result.objects.all()
+            hist_data = []
+            for results in users_results: hist_data.append(results.amount)
+            plt.clf()
+            plt.title('Users results')
+            plt.ylabel('attempts')
+            plt.xlabel('Points')
+            plt.hist(hist_data)
+            buffer=io.BytesIO()
+            plt.savefig(buffer,format='png')
+            buffer.seek(0)
+            image_png=buffer.getvalue()
+            buffer.close()
+            graphic_hist=base64.b64encode(image_png)
+            graphic_hist=graphic_hist.decode('utf-8')
+            return render(request,'result.html', context={'score':score, 'user_results':user_results, 'plot':graphic, 'hist':graphic_hist})
         else:
             score = request.session['score']
             Result.objects.create(amount=score, category_id=category_id)
-            user_results = "Register to see your other results"
+            user_results = None
             return render(request, 'result.html', context={'score': score,'user_results':user_results})

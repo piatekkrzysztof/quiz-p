@@ -2,9 +2,15 @@
 {% block content %}
     <h2>Congratulations! you got {{ score }}/10 points! </h2>
     <h3>Your other results:</h3>
+    {% if user_results == None %}
+    <h4>Register to se your other results</h4>
+    {% else %}
     <ol>
     {% for r in user_results  %}
         <li>Points :{{ r.amount }}/10</li>
     {% endfor %}
     </ol>
+    <img src="data:image/png;base64,{{plot}}" alt="User results plot">
+        <img src="data:image/png;base64,{{hist}}" alt="Users results histogram">
+    {% endif %}
 {% endblock %}
